@@ -4,6 +4,8 @@ const config = require("./config");
 const Hapi = require("hapi");
 const routes = require("./routes/");
 const swaggerPlugin = require("./plugins/swagger");
+const paginationPlugin = require("./plugins/pagination");
+const pluginHapiAuthJWT2 = require("./plugins/hapi-auth-jwt2");
 
 const server = new Hapi.Server();
 // 配置服务器启动 host 与端口
@@ -13,7 +15,8 @@ server.connection({
 });
 
 const init = async () => {
-  await server.register([...swaggerPlugin]);
+  await server.register([...swaggerPlugin, paginationPlugin]);
+  // pluginHapiAuthJWT2(server);
   server.route([...routes]);
   // 启动服务
   await server.start();
